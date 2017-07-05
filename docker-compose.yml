@@ -1,0 +1,23 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+  api:
+    build: ./rails
+    environment:
+      RAILS_ENV: development
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../project:/usr/src/app
+    tty: true
+    links:
+      - postgres
+      - redis
